@@ -2,20 +2,8 @@
 var appModule = angular.module("app", ["ngRoute"]);
 appModule.controller("appController", ["$scope", "$location", "$routeParams", function($scope, $location, $routeParams) {
     //todo:{id:1,text:"hello world",completed:false}
-    $scope.text = "hello wolrd";
-    $scope.todos = [{
-        id: 1,
-        text: "哎呀",
-        completed: true,
-    }, {
-        id: 2,
-        text: "艾斯凯梵",
-        completed: false,
-    }, {
-        id: 3,
-        text: "asldf",
-        completed: false
-    }];
+    $scope.text = "";
+    $scope.todos = [];
 
     $scope.currentEditingId = -1;
     $scope.add = function(text) {
