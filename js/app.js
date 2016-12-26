@@ -15,6 +15,7 @@ appModule.controller("appController", ["$scope", "$location", "$routeParams", fu
             text: text,
             completed: false,
         });
+        $scope.text = "";
     }
     $scope.currentEditing = function(id) {
         $scope.currentEditingId = id;
