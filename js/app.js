@@ -1,9 +1,15 @@
 "use strict";
 var appModule = angular.module("app", ["ngRoute"]);
-appModule.controller("appController", ["$scope", "$location", "$routeParams", function($scope, $location, $routeParams) {
+appModule.controller("appController", ["$scope", "$location", "$routeParams","$window", function($scope, $location, $routeParams,$window) {
     //todo:{id:1,text:"hello world",completed:false}
     $scope.text = "";
-    $scope.todos = [];
+    //先对本地缓存进行判断，如果本地存储了$window.localStorage["todo_list"]，则反序列化后直接调用；否则新建一个空数组
+    $scope.todos = $window.localStorage["todo_list"]?JSON.parse($window.localStorage["todo_list"]):[];
+
+    //将$scope.todos的内容序列化后重新存储到localStorage缓存里面
+    function save(){
+        $window.localStorage["todo_list"] = JSON.stringify($scope.todos);
+    }
 
     $scope.currentEditingId = -1;
     $scope.add = function(text) {
@@ -15,6 +21,7 @@ appModule.controller("appController", ["$scope", "$location", "$routeParams", fu
             text: text,
             completed: false,
         });
+        save();
         $scope.text = "";
     }
     $scope.currentEditing = function(id) {
@@ -30,12 +37,14 @@ appModule.controller("appController", ["$scope", "$location", "$routeParams", fu
                 console.log(i);
             }
         }
+        save();
     }
     var selectedAll = true;
     $scope.toggleAll = function() {
         for (var i = 0; i < $scope.todos.length; i++) {
             $scope.todos[i].completed = selectedAll;
         }
+        save();
         selectedAll = !selectedAll;
     }
     $scope.clearCompleted = function() {
@@ -46,6 +55,7 @@ appModule.controller("appController", ["$scope", "$location", "$routeParams", fu
             }
         }
         $scope.todos = uncompleted;
+        save();
     }
     $scope.show = function() {
             for (var i = 0; i < $scope.todos.length; i++) {
