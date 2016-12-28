@@ -3,10 +3,12 @@ var appModule = angular.module("app", ["ngRoute"]);
 appModule.controller("appController", ["$scope", "$location", "$routeParams","$window", function($scope, $location, $routeParams,$window) {
     //todo:{id:1,text:"hello world",completed:false}
     $scope.text = "";
+    //给项目添加本地缓存的功能，将数据存储到window.localStorage缓存上面，每次开启该站点的时候，先检查本地是否存在缓存内容
+    //如果存在缓存内容则直接使用该缓存内容，记得要引入$window对象
     //先对本地缓存进行判断，如果本地存储了$window.localStorage["todo_list"]，则反序列化后直接调用；否则新建一个空数组
     $scope.todos = $window.localStorage["todo_list"]?JSON.parse($window.localStorage["todo_list"]):[];
 
-    //将$scope.todos的内容序列化后重新存储到localStorage缓存里面
+    //每次对$scope.todos数组进行更改过后，就调用下该函数，将$scope.todos的内容序列化后重新存储到localStorage缓存里面
     function save(){
         $window.localStorage["todo_list"] = JSON.stringify($scope.todos);
     }
@@ -21,7 +23,7 @@ appModule.controller("appController", ["$scope", "$location", "$routeParams","$w
             text: text,
             completed: false,
         });
-        save();
+        save();//todos的内容被更改，重新将该内容添加到本地缓存里面
         console.log($window.localStorage);//仅仅是用来测试用的，说明内容已经存储到todos里面了
         $scope.text = "";
     }

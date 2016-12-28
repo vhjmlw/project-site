@@ -46,6 +46,8 @@
         <!-- This footer should hidden by default and shown when there are todos -->
         <footer class="footer" ng-show="todos.length">
             <!-- This should be `0 items left` by default -->
+            <!-- 给标签添加一个ng-cloak属性，则标签体里面的表达式的内容在加载页面的时候不会显示出来，提高用户体验 -->
+            <!-- 即：{{todos.length}}内容在页面加载的时候不会被显示，cloak：遮罩 -->
             <span class="todo-count" ng-cloak><strong>{{todos.length}}</strong> item left</span>
             <!-- Remove this if you don't implement routing -->
             <ul class="filters">
