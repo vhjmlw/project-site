@@ -22,6 +22,7 @@ appModule.controller("appController", ["$scope", "$location", "$routeParams","$w
             completed: false,
         });
         save();
+        console.log($window.localStorage);//仅仅是用来测试用的，说明内容已经存储到todos里面了
         $scope.text = "";
     }
     $scope.currentEditing = function(id) {
